@@ -1,0 +1,79 @@
+/**
+ * =====================================================
+ * MITKARY'S CAPS Attendance Portal
+ * API.gs
+ * =====================================================
+ */
+
+const STUDENTS_SHEET = "Students";
+
+/**
+ * Returns all active batches with student count
+ */
+function getBatchList() {
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(STUDENTS_SHEET);
+
+  const data = sheet.getDataRange().getValues();
+
+  const batches = {};
+
+  for (let i = 1; i < data.length; i++) {
+
+    const batch = data[i][5];   // Column F
+    const status = String(data[i][8]).trim().toLowerCase(); // Column I
+
+    if (!batch) continue;
+    if (status !== "active") continue;
+
+    if (!batches[batch]) {
+      batches[batch] = 0;
+    }
+
+    batches[batch]++;
+
+  }
+
+  return Object.keys(batches)
+    .sort()
+    .map(batch => ({
+      name: batch,
+      count: batches[batch]
+    }));
+
+}
+
+/**
+ * Returns all active students of a batch
+ */
+function getStudents(batchName) {
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(STUDENTS_SHEET);
+
+  const data = sheet.getDataRange().getValues();
+
+  const students = [];
+
+  for (let i = 1; i < data.length; i++) {
+
+    const status = String(data[i][8]).trim().toLowerCase();
+    const batch = data[i][5];
+
+    if (status !== "active") continue;
+    if (batch !== batchName) continue;
+
+    students.push({
+      id: data[i][0],
+      name: data[i][1],
+      parentName: data[i][2],
+      parentMobile: data[i][3],
+      studentMobile: data[i][4]
+    });
+
+  }
+
+  return students;
+
+}
