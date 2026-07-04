@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <?!= include("Theme"); ?>
+
+</head>
+
+<body>
+
+<!-- ================= HOME SCREEN ================= -->
+
+<div id="homeScreen">
+
+    <div class="container">
+
+        <h1>MITKARY'S CAPS</h1>
+
+        <h2>Attendance Portal</h2>
+
+        <p id="today"></p>
+
+        <h3>Choose Batch</h3>
+
+        <div id="batchContainer">
+
+            Loading batches...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ATTENDANCE SCREEN ================= -->
+
+<div id="attendanceScreen" style="display:none;">
+
+    <div class="container">
+
+        <button class="back-btn" onclick="goHome()">
+
+            ← Back
+
+        </button>
+
+        <h2 id="batchTitle"></h2>
+
+        <div id="studentContainer">
+
+            Loading students...
+
+        </div>
+
+    </div>
+
+</div>
+
+<?!= include("App"); ?>
+
+</body>
+
+</html>
